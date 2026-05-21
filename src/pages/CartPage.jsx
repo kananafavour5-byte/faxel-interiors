@@ -2,12 +2,6 @@ import { save } from "../utils/storage";
 
 const LS_CART = "hw_cart";
 
-const qtyBtn = {
-  background: "#334155", color: "#f8fafc", border: "none",
-  cursor: "pointer", width: 30, height: 30, borderRadius: 6,
-  fontSize: 18, display: "flex", alignItems: "center", justifyContent: "center",
-};
-
 export default function CartPage({ cart, setCart, setPage }) {
 
   const updateQty = (id, delta) => {
@@ -28,103 +22,219 @@ export default function CartPage({ cart, setCart, setPage }) {
     });
   };
 
-  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const clearCart = () => {
+    setCart([]);
+    save(LS_CART, []);
+  };
+
+  const total      = cart.reduce((s, i) => s + i.price * i.qty, 0);
   const totalItems = cart.reduce((s, i) => s + i.qty, 0);
 
+  // ── Empty state ──
   if (!cart.length) return (
     <div style={{
-      minHeight: "calc(100vh - 60px)", background: "#0f172a",
+      minHeight: "calc(100vh - 60px)", background: "linear-gradient(135deg, #e1dbd7 0%, #cba49f 55%, #4d0e13 100%)",
       display: "flex", flexDirection: "column",
       alignItems: "center", justifyContent: "center", gap: 20,
     }}>
-      <div style={{ fontSize: 64 }}>🛒</div>
-      <div style={{ fontFamily: "'Oswald',sans-serif", fontSize: 26, color: "#f8fafc" }}>
+      <div style={{ fontSize: 72 }}>🛒</div>
+      <div style={{
+        fontFamily: "'Oswald', sans-serif",
+        fontSize: 28, color: "#4d0e13",
+      }}>
         Your cart is empty
       </div>
-      <button onClick={() => setPage("shop")} style={{
-        background: "#f97316", color: "#0f172a", border: "none",
-        cursor: "pointer", padding: "12px 28px", borderRadius: 8,
-        fontFamily: "'Oswald',sans-serif", fontSize: 16, fontWeight: 700,
-      }}>
+      <p style={{ color: "#4d0e13", fontSize: 15 }}>
+        Add some tools and come back!
+      </p>
+      <button
+        onClick={() => setPage("shop")}
+        style={{
+          background: "#8c5d5d", color: "#f3d7d4",
+          border: "none", cursor: "pointer",
+          padding: "12px 30px", borderRadius: 8,
+          fontFamily: "'Oswald', sans-serif",
+          fontSize: 16, fontWeight: 700, letterSpacing: 1,
+        }}
+      >
         Browse Shop
       </button>
     </div>
   );
 
   return (
-    <div style={{ minHeight: "calc(100vh - 60px)", background: "#0f172a", padding: "40px 24px" }}>
-      <div style={{ maxWidth: 800, margin: "0 auto" }}>
+    <div style={{ minHeight: "calc(100vh - 60px)", background: "linear-gradient(135deg, #e1dbd7 0%, #cba49f 55%, #4d0e13 100%)", padding: "40px 24px" }}>
+      <div style={{ maxWidth: 820, margin: "0 auto" }}>
 
-        <h2 style={{ fontFamily: "'Oswald',sans-serif", fontSize: 34, color: "#f8fafc", marginBottom: 28 }}>
-          Your Cart
-        </h2>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28, flexWrap: "wrap", gap: 12 }}>
+          <h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: 34, color: "#f8fafc" }}>
+            Your Cart
+          </h2>
+          <button onClick={clearCart} style={{
+            background: "transparent", color: "#ef4444",
+            border: "1px solid #ef4444", cursor: "pointer",
+            padding: "6px 16px", borderRadius: 6, fontSize: 13,
+            transition: "background .15s, color .15s",
+          }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "#ef4444"; e.currentTarget.style.color = "#fff"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#ef4444"; }}
+          >
+            Clear All
+          </button>
+        </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        {/* Cart items */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           {cart.map((item) => (
             <div key={item.id} style={{
-              background: "#1e293b", borderRadius: 12, padding: 18,
-              border: "1px solid #334155",
-              display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap",
+              background: "#660810", borderRadius: 12,
+              padding: "16px 20px",
+              border: "1px solid #d6b7b1",
+              display: "flex", alignItems: "center",
+              gap: 16, flexWrap: "wrap",
             }}>
               {/* Thumbnail */}
-              <div style={{ width: 64, height: 64, borderRadius: 8, overflow: "hidden", background: "#0f172a", flexShrink: 0 }}>
-                {item.image
-                  ? <img src={item.image} alt={item.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                  : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28 }}>🔩</div>
-                }
+              <div style={{
+                width: 68, height: 68, borderRadius: 10,
+                overflow: "hidden", background: "#ead7d3", flexShrink: 0,
+              }}>
+                {item.image ? (
+                  <img src={item.image} alt={item.name}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                ) : (
+                  <div style={{
+                    width: "100%", height: "100%",
+                    display: "flex", alignItems: "center",
+                    justifyContent: "center", fontSize: 28,
+                  }}>🔩</div>
+                )}
               </div>
 
-              {/* Name + price */}
-              <div style={{ flex: 1, minWidth: 120 }}>
-                <div style={{ fontFamily: "'Oswald',sans-serif", fontSize: 17, color: "#f8fafc" }}>{item.name}</div>
-                <div style={{ color: "#f97316", fontSize: 15, fontWeight: 600 }}>${Number(item.price).toFixed(2)}</div>
+              {/* Name + unit price */}
+              <div style={{ flex: 1, minWidth: 130 }}>
+                <div style={{
+                  fontFamily: "'Oswald', sans-serif",
+                  fontSize: 17, color: "#f8fafc", marginBottom: 3,
+                }}>
+                  {item.name}
+                </div>
+                <div style={{ color: "#c4a9a9", fontSize: 13 }}>
+                  ${Number(item.price).toFixed(2)} each
+                </div>
               </div>
 
               {/* Qty controls */}
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <button onClick={() => updateQty(item.id, -1)} style={qtyBtn}>−</button>
-                <span style={{ color: "#f8fafc", minWidth: 24, textAlign: "center", fontWeight: 700 }}>{item.qty}</span>
-                <button onClick={() => updateQty(item.id,  1)} style={qtyBtn}>+</button>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <button
+                  onClick={() => updateQty(item.id, -1)}
+                  style={qtyBtnStyle}
+                >−</button>
+                <span style={{
+                  color: "#f8fafc", fontFamily: "'Oswald', sans-serif",
+                  fontSize: 17, minWidth: 26, textAlign: "center",
+                }}>
+                  {item.qty}
+                </span>
+                <button
+                  onClick={() => updateQty(item.id, 1)}
+                  style={qtyBtnStyle}
+                >+</button>
               </div>
 
               {/* Line total */}
-              <div style={{ fontFamily: "'Oswald',sans-serif", fontSize: 18, color: "#f8fafc", minWidth: 72, textAlign: "right" }}>
+              <div style={{
+                fontFamily: "'Oswald', sans-serif",
+                fontSize: 19, color: "#c4a9a9",
+                minWidth: 76, textAlign: "right",
+              }}>
                 ${(item.price * item.qty).toFixed(2)}
               </div>
 
               {/* Remove */}
               <button onClick={() => remove(item.id)} style={{
-                background: "#ef4444", color: "#fff", border: "none",
-                cursor: "pointer", padding: "6px 12px", borderRadius: 6, fontSize: 13,
-              }}>✕</button>
+                background: "#713036", color: "#ef4444",
+                border: "1px solid #ef4444", cursor: "pointer",
+                width: 32, height: 32, borderRadius: 6,
+                fontSize: 14, display: "flex",
+                alignItems: "center", justifyContent: "center",
+                transition: "background .15s",
+                flexShrink: 0,
+              }}
+                onMouseEnter={(e) => e.currentTarget.style.background = "#ef4444"}
+                onMouseLeave={(e) => e.currentTarget.style.background = "#713036"}
+              >
+                ✕
+              </button>
             </div>
           ))}
         </div>
 
-        {/* Summary */}
+        {/* Order summary */}
         <div style={{
-          background: "#1e293b", borderRadius: 12, padding: 24,
-          marginTop: 24, border: "1px solid #334155",
+          background: "#660810", borderRadius: 14,
+          padding: "24px 28px", marginTop: 24,
+          border: "1px solid #d6b7b1",
         }}>
-          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
-            <span style={{ color: "#94a3b8", fontSize: 16 }}>Subtotal ({totalItems} item{totalItems !== 1 ? "s" : ""})</span>
-            <span style={{ fontFamily: "'Oswald',sans-serif", fontSize: 22, color: "#f97316" }}>
-              ${total.toFixed(2)}
-            </span>
-          </div>
-          <button style={{
-            width: "100%", background: "#f97316", color: "#0f172a",
-            border: "none", cursor: "pointer", padding: 14, borderRadius: 8,
-            fontFamily: "'Oswald',sans-serif", fontSize: 18, fontWeight: 700, letterSpacing: 1,
+          <h3 style={{
+            fontFamily: "'Oswald', sans-serif",
+            fontSize: 18, color: "#d3c2c2", marginBottom: 16,
           }}>
+            Order Summary
+          </h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
+            <Row label={`Items (${totalItems})`}    value={`$${total.toFixed(2)}`} />
+            <Row label="Shipping"                   value="Free" accent />
+            <Row label="Tax (estimated)"            value={`$${(total * 0.08).toFixed(2)}`} />
+            <div style={{ borderTop: "1px solid #d6b7b1", paddingTop: 12, marginTop: 4 }} />
+            <Row label="Total" value={`$${(total * 1.08).toFixed(2)}`} bold />
+          </div>
+
+          <button style={{
+            width: "100%", background: "#af776e", color: "#f8fafc",
+            border: "none", cursor: "pointer", padding: "15px",
+            borderRadius: 9, fontFamily: "'Oswald', sans-serif",
+            fontSize: 18, fontWeight: 700, letterSpacing: 1,
+            textTransform: "uppercase",
+            transition: "background .15s",
+          }}
+            onMouseEnter={(e) => e.currentTarget.style.background = "#4b1d3f"}
+            onMouseLeave={(e) => e.currentTarget.style.background = "#af776e"}
+          >
             Proceed to Checkout
           </button>
-          <p style={{ textAlign: "center", color: "#475569", fontSize: 12, marginTop: 10 }}>
-            Payment integration coming soon.
+          <p style={{
+            textAlign: "center", color: "#f8fafc",
+            fontSize: 12, marginTop: 10,
+          }}>
+            🔒 Secure checkout — payment integration coming soon.
           </p>
         </div>
-
       </div>
+    </div>
+  );
+}
+
+const qtyBtnStyle = {
+  background: "#713036", color: "#f8fafc",
+  border: "none", cursor: "pointer",
+  width: 32, height: 32, borderRadius: 7,
+  fontSize: 18, display: "flex",
+  alignItems: "center", justifyContent: "center",
+  transition: "background .15s",
+};
+
+function Row({ label, value, accent, bold }) {
+  return (
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <span style={{ color: "#c4a9a9", fontSize: 14 }}>{label}</span>
+      <span style={{
+        color: accent ? "#16a34a" : bold ? "#f8fafc" : "#c4a9a9",
+        fontFamily: bold ? "'Oswald', sans-serif" : "inherit",
+        fontSize: bold ? 20 : 14,
+        fontWeight: bold ? 700 : 400,
+      }}>
+        {value}
+      </span>
     </div>
   );
 }

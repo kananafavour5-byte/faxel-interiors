@@ -35,6 +35,7 @@ export default function HomePage({ setPage }) {
           fontSize: "clamp(42px, 9vw, 84px)",
           fontWeight: 700, lineHeight: 1.08,
           margin: "0 0 24px",
+          color: "#f9ebebed",
         }}>
           Elevate Every<br />
           <span style={{ color: "#660810" }}>Corner Of Your Home.</span>
@@ -97,24 +98,24 @@ luxury paints, and interior finishes crafted for contemporary living.
 
       {/* ── Stats bar ── */}
       <div style={{
-        background: "#1e293b", borderTop: "1px solid #334155",
-        borderBottom: "1px solid #334155",
+        background: "#660810", borderTop: "1px solid #f1ebeb",
+        borderBottom: "1px solid #f1ebeb",
         display: "flex", justifyContent: "center", flexWrap: "wrap",
         gap: 0,
       }}>
         {[
-          { value: "500+", label: "Products" },
-          { value: "12K+", label: "Happy Customers" },
-          { value: "4.9★", label: "Average Rating" },
-          { value: "2yr",  label: "Warranty" },
+          { value: "500+", label: "Premium Designs" },
+          { value: "12K+", label: "Happy Homeowners" },
+          { value: "4.9★", label: "Client Satisfaction" },
+          { value: "5yr",  label: "Craftsmanship Guarantee" },
         ].map((s, i) => (
           <div key={s.label} style={{
             padding: "22px 40px", textAlign: "center",
-            borderRight: i < 3 ? "1px solid #334155" : "none",
+            borderRight: i < 3 ? "1px solid #4b1d35" : "none",
             flex: "1 1 120px",
           }}>
-            <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 26, color: "#f97316" }}>{s.value}</div>
-            <div style={{ color: "#64748b", fontSize: 13, marginTop: 2 }}>{s.label}</div>
+            <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 26, color: "#d6c0b1" }}>{s.value}</div>
+            <div style={{ color: "#cabcbb", fontSize: 13, marginTop: 2 }}>{s.label}</div>
           </div>
         ))}
       </div>
@@ -134,26 +135,26 @@ luxury paints, and interior finishes crafted for contemporary living.
           { icon: "💳", title: "Easy Returns",        desc: "30-day hassle-free return policy. No questions asked, no forms needed." },
         ].map((f) => (
           <div key={f.title} style={{
-            background: "#1e293b", borderRadius: 14, padding: "28px 24px",
-            border: "1px solid #334155", transition: "border-color .2s, transform .2s",
+            background: "#660810", borderRadius: 14, padding: "28px 24px",
+            border: "1px solid #f1ebeb", transition: "border-color .2s, transform .2s",
           }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "#f97316";
+              e.currentTarget.style.borderColor = "#c07474";
               e.currentTarget.style.transform = "translateY(-2px)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "#334155";
+              e.currentTarget.style.borderColor = "#f1ebeb";
               e.currentTarget.style.transform = "translateY(0)";
             }}
           >
             <div style={{ fontSize: 34, marginBottom: 14 }}>{f.icon}</div>
             <div style={{
               fontFamily: "'Oswald', sans-serif",
-              fontSize: 17, color: "#f8fafc", marginBottom: 8,
+              fontSize: 17, color: "#d6c0b1", marginBottom: 8,
             }}>
               {f.title}
             </div>
-            <div style={{ color: "#64748b", fontSize: 13, lineHeight: 1.65 }}>{f.desc}</div>
+            <div style={{ color: "#cabcbb", fontSize: 13, lineHeight: 1.65 }}>{f.desc}</div>
           </div>
         ))}
       </div>

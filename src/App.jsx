@@ -45,7 +45,7 @@ export default function App() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'DM Sans', sans-serif; background: #0f172a; }
+        body { font-family: 'DM Sans', sans-serif; background: #e1db7a; }
         @keyframes slideIn {
           from { transform: translateX(60px); opacity: 0; }
           to   { transform: translateX(0);   opacity: 1; }

@@ -11,13 +11,13 @@ export default function ShopPage({ products, onAddToCart }) {
   );
 
   return (
-    <div style={{ minHeight: "calc(100vh - 60px)", background: "#0f172a", padding: "40px 24px" }}>
+    <div style={{ minHeight: "calc(100vh - 60px)", background: "linear-gradient(135deg, #e1dbd7 0%, #cba49f 55%, #4d0e13 100%)", padding: "40px 24px" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
 
-        <h2 style={{ fontFamily: "'Oswald',sans-serif", fontSize: 34, color: "#f8fafc", marginBottom: 8 }}>
+        <h2 style={{ fontFamily: "'Oswald',sans-serif", fontSize: 34, color: "#92363d", marginBottom: 8 }}>
           All Products
         </h2>
-        <p style={{ color: "#64748b", marginBottom: 28 }}>
+        <p style={{ color: "#4b1d3f", marginBottom: 28 }}>
           {filtered.length} item{filtered.length !== 1 ? "s" : ""} found
         </p>
 
@@ -27,16 +27,16 @@ export default function ShopPage({ products, onAddToCart }) {
           onChange={(e) => setSearch(e.target.value)}
           style={{
             width: "100%", maxWidth: 400, padding: "10px 16px",
-            background: "#1e293b", border: "1px solid #334155",
-            borderRadius: 8, color: "#f8fafc", fontSize: 15,
+            background: "#f8f3f3", border: "1px solid #4b1d3f", outline: "none",
+            borderRadius: 8, color: "#4b1d3f", fontSize: 15,
             marginBottom: 32, outline: "none", boxSizing: "border-box",
           }}
-          onFocus={(e) => e.currentTarget.style.borderColor = "#f97316"}
-          onBlur={(e)  => e.currentTarget.style.borderColor = "#334155"}
+          onFocus={(e) => e.currentTarget.style.borderColor = "#660810"}
+          onBlur={(e)  => e.currentTarget.style.borderColor = "#4b1d3f"}
         />
 
         {filtered.length === 0 ? (
-          <div style={{ textAlign: "center", color: "#64748b", padding: "60px 0", fontSize: 18 }}>
+          <div style={{ textAlign: "center", color: "#4b1d3f", padding: "60px 0", fontSize: 18 }}>
             No products found.
           </div>
         ) : (
