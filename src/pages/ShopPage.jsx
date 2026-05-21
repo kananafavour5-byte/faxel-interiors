@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ProductCard from "../components/ProductCard";
+import AnimatedProductGrid from "../components/AnimatedProductGrid";
 
 export default function ShopPage({ products, onAddToCart }) {
   const [search, setSearch] = useState("");
@@ -40,15 +40,10 @@ export default function ShopPage({ products, onAddToCart }) {
             No products found.
           </div>
         ) : (
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill,minmax(260px,1fr))",
-            gap: 24,
-          }}>
-            {filtered.map((p) => (
-              <ProductCard key={p.id} product={p} onAddToCart={onAddToCart} />
-            ))}
-          </div>
+          <AnimatedProductGrid
+  products={filtered}
+  onAddToCart={onAddToCart}
+/>
         )}
       </div>
     </div>

@@ -45,23 +45,48 @@ export default function App() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'DM Sans', sans-serif; background: #e1db7a; }
+        body { font-family: 'DM Sans', sans-serif; background: #0f172a; }
+
+        /* ── ADJUST ZONE 5 ───────────────────────────────────────
+           tickerScroll keyframe — controls the conveyor belt loop
+           The translateX end value must equal the width of ONE set
+           of products: (cardWidth + gap) * productCount
+           Formula: calc(-1 * (TICKER_CARD_WIDTH + TICKER_CARD_GAP) * products.length)
+           
+           Default uses CSS custom property set dynamically below.
+           If you have a fixed number of products (e.g. 6) and
+           cardWidth=260, gap=24, the value = -(260+24)*6 = -1704px
+        ─────────────────────────────────────────────────────── */
+        @keyframes tickerScroll {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(calc(-1 * var(--ticker-width, 1704px))); }
+        }
+
         @keyframes slideIn {
           from { transform: translateX(60px); opacity: 0; }
-          to   { transform: translateX(0);   opacity: 1; }
+          to   { transform: translateX(0);    opacity: 1; }
         }
+
+        @keyframes heroFadeUp {
+          from { transform: translateY(30px); opacity: 0; }
+          to   { transform: translateY(0);    opacity: 1; }
+        }
+
         @media (max-width: 640px) {
-          .nav-desktop  { display: none !important; }
-          .nav-hamburger{ display: block !important; }
+          .nav-desktop   { display: none !important; }
+          .nav-hamburger { display: block !important; }
         }
         input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
       `}</style>
 
       <Navbar page={page} setPage={setPage} cartCount={cartCount} />
 
-      {page === "home"  && <HomePage setPage={setPage} />}
-      {page === "shop"  && <ShopPage products={products} onAddToCart={addToCart} />}
-      {page === "cart"  && <CartPage cart={cart} setCart={setCart} setPage={setPage} />}
+      {page === "home"  && <HomePage  setPage={setPage} />}
+      {page === "shop"  && <ShopPage  products={products} onAddToCart={addToCart} />}
+      {page === "cart"  && <CartPage  cart={cart} setCart={setCart} setPage={setPage} />}
       {page === "admin" && <AdminPage products={products} setProducts={setProducts} />}
 
       <Toast toasts={toasts} />
